@@ -1,12 +1,6 @@
-from re import A
 from rest_framework.viewsets import ModelViewSet
-from .models import Author, User
-from .serializer import AuthorModelSerializer, UserModelSerializer
-
-
-class AuthorModelViewSet(ModelViewSet):
-    serializer_class = AuthorModelSerializer
-    queryset = Author.objects.all()
+from .models import User
+from .serializer import UserModelSerializer
 
 
 class UserModelViewSet(ModelViewSet):
