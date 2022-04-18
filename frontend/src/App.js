@@ -14,7 +14,7 @@ class App extends React.Component {
     axios
       .get('http://127.0.0.1:8000/api/users/')
       .then(response => {
-        let users = response.data
+        let users = response.data.results
         this.setState({
           'users': users
         })
@@ -27,7 +27,7 @@ class App extends React.Component {
       <div>
         <div class='menu'></div>
 
-        <UserList users={this.state.users} />
+        <div> <UserList users={this.state.users} /> </div>
 
         <div class='footer'></div>
       </div>

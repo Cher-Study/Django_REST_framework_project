@@ -6,8 +6,35 @@ class User(AbstractBaseUser):
     user_name = models.CharField(max_length=64)
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)
-    email = email = models.EmailField(
-        verbose_name='email address',
-        max_length=255,
-        unique=True,
-    )
+    email = models.EmailField(max_length=255, unique=True)
+
+
+class Project(models.Model):
+    project_name = models.CharField(max_length=128)
+    repo = models.CharField(max_length=128)
+    users = models.ManyToManyField(User)
+
+
+class Todo(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    text = models.TextField()
+    created = models.DateTimeField(auto_created=True)
+    updated = models.DateTimeField(auto_now=True)
+    author = models.ForeignKey(User, models.PROTECT)
+    is_active = models.BooleanField(default=True)
+    # project
+    # text
+    # created
+    # updated
+    # author
+    # is_active
+
+
+# 1 project - many todo
+# 1 todo - 1 project
+# 1 todo - 1 user
+# 1 user - many todo
+# project-users - many to many
+
+
+# serializers and viewset - like users
