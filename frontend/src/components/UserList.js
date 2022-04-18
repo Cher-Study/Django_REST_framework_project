@@ -1,22 +1,13 @@
 const UserItem = ({ user }) => {
     return (
         <tr>
-            <td>
-                (user.user_name)
-            </td>
-            <td>
-                (user.first_name)
-            </td>
-            <td>
-                (user.last_name)
-            </td>
-            <td>
-                (user.email)
-            </td>
+            <td>{user.user_name}</td>
+            <td>{user.first_name}</td>
+            <td>{user.last_name}</td>
+            <td>{user.email}</td>
         </tr>
     )
 }
-
 
 const UserList = ({ users }) => {
     return (
@@ -37,4 +28,5 @@ const UserList = ({ users }) => {
         </table>
     )
 }
-export default UserList;
+
+export default UserList
