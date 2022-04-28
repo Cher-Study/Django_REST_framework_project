@@ -22,19 +22,3 @@ class Todo(models.Model):
     updated = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, models.PROTECT)
     is_active = models.BooleanField(default=True)
-    # project
-    # text
-    # created
-    # updated
-    # author
-    # is_active
-
-
-# 1 project - many todo
-# 1 todo - 1 project
-# 1 todo - 1 user
-# 1 user - many todo
-# project-users - many to many
-
-
-# serializers and viewset - like users
