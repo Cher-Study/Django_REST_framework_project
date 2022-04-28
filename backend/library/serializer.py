@@ -8,7 +8,7 @@ class UserModelSerializer(ModelSerializer):
         fields = ('user_name', 'first_name', 'last_name', 'email')
 
 
-class ProgectModelSerializer(ModelSerializer):
+class ProjectModelSerializer(ModelSerializer):
     users = StringRelatedField(many=True)
 
     class Meta:
