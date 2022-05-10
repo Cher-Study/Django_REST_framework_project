@@ -4,6 +4,7 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.pagination import LimitOffsetPagination
 from .models import User, Project, Todo
 from .serializer import UserModelSerializer, ProjectModelSerializer, TodoModelSerializer
+from rest_framework.permissions import BasePermission, DjangoModelPermissions, DjangoModelPermissionsOrAnonReadOnly
 
 
 class ProjectLimitOffsetPagination(LimitOffsetPagination):
@@ -22,6 +23,7 @@ class UserReadViewSet(
     ListModelMixin,
     GenericViewSet
 ):
+    permission_classes = [DjangoModelPermissions]
     serializer_class = UserModelSerializer
     queryset = User.objects.all()
 
