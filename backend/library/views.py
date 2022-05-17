@@ -16,7 +16,7 @@ class TodoLimitOffsetPagination(LimitOffsetPagination):
 
 
 class UserReadViewSet(
-    # CreateModelMixin,
+    CreateModelMixin,
     RetrieveModelMixin,
     UpdateModelMixin,
     # DestroyModelMixin,
