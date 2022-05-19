@@ -24,7 +24,7 @@ class UserReadViewSet(
     GenericViewSet
 ):
     permission_classes = [DjangoModelPermissions]
-    # serializer_class = UserModelSerializer
+    serializer_class = UserModelSerializer
     queryset = User.objects.all()
 
     def get_serializer_class(self):
