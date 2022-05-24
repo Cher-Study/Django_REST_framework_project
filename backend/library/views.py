@@ -3,7 +3,7 @@ from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, UpdateMo
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.pagination import LimitOffsetPagination
 from .models import User, Project, Todo
-from .serializer import UserModelSerializer, ProjectModelSerializer, TodoModelSerializer
+from .serializer import UserModelSerializer, ProjectModelSerializer, TodoModelSerializer, UserModelSerializerV2
 from rest_framework.permissions import BasePermission, DjangoModelPermissions, DjangoModelPermissionsOrAnonReadOnly
 
 
@@ -26,6 +26,11 @@ class UserReadViewSet(
     permission_classes = [DjangoModelPermissions]
     serializer_class = UserModelSerializer
     queryset = User.objects.all()
+
+    def get_serializer_class(self):
+        if self.request.version == '2.0':
+            return UserModelSerializerV2
+        return UserModelSerializer
 
 
 class ProjectModelViewSet(ModelViewSet):

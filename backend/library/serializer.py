@@ -5,7 +5,16 @@ from rest_framework.serializers import ModelSerializer, Serializer, CharField, E
 class UserModelSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ('user_name', 'first_name', 'last_name', 'email')
+        fields = ('user_name', 'first_name',
+                  'last_name', 'email')
+
+
+class UserModelSerializerV2(ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('id', 'user_name', 'first_name', 'last_name',
+                  'email', 'is_superuser', 'is_staff')
 
 
 class SingleUserModelSerializer(ModelSerializer):

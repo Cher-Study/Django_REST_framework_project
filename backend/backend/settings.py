@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+from rest_framework.versioning import URLPathVersioning
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
+    'drf_yasg',
     'corsheaders',
     'library',
 ]
@@ -83,6 +85,7 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
     ],
 
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 100,
     'DEFAULT_PERMISSION_CLASSES': [
