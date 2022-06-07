@@ -119,6 +119,24 @@ class App extends React.Component {
             })
     }
 
+    deleteProject(id) {
+        let headers = this.getHeaders()
+
+        axios
+            .delete(`http://127.0.0.1:8000/api/projects/${id}`, { headers })
+            .then(response => {
+                let projects = response.data.results
+                this.setState({
+                    'projects': this.state.projects.filter((project) => project.id !== id)
+                })
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
+        console.log(id)
+    }
+
     render() {
         return (
             <div>
@@ -136,7 +154,7 @@ class App extends React.Component {
                     <Routes>
                         <Route exact path='/' element={<UserList users={this.state.users} />} />
                         <Route exact path='/users' element={<Navigate to='/' />} />
-                        <Route exact path='/projects' element={<ProjectList projects={this.state.projects} />} />
+                        <Route exact path='/projects' element={<ProjectList projects={this.state.projects} deleteProject={(id) => this.deleteProject(id)} />} />
                         <Route exact path='/todo' element={<ToDoList todos={this.state.todos} />} />
                         <Route exact path='/login' element={<LoginForm obtainAuthToken={(login, password) => this.obtainAuthToken(login, password)} />} />
                         <Route path='*' element={<NotFound />} />
