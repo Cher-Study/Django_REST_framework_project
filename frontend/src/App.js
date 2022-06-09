@@ -4,7 +4,8 @@ import './App.css';
 import UserList from './components/UserList.js'
 import ToDoList from './components/ToDoList.js'
 import ProjectList from './components/ProjectList.js'
-import LoginForm from './components/LoginForm'
+import ProjectForm from './components/ProjectForm.js'
+import LoginForm from './components/LoginForm.js'
 import { HashRouter, BrowserRouter, Route, Routes, Link, Navigate, useLocation } from 'react-router-dom'
 
 
@@ -119,6 +120,22 @@ class App extends React.Component {
             })
     }
 
+    createProject(project_name, repo, users) {
+
+        let headers = this.getHeaders()
+
+        axios
+            .delete('http://127.0.0.1:8000/api/projects/', { 'project_name': project_name, 'repo': repo, 'users': users }, { headers })
+            .then(response => {
+                this.getData()
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
+        console.log(project_name, repo, users)
+    }
+
     deleteProject(id) {
         let headers = this.getHeaders()
 
@@ -144,6 +161,7 @@ class App extends React.Component {
                     <nav>
                         <li><Link to='/'>Users</Link></li>
                         <li><Link to='/projects'>Projects</Link></li>
+                        <li><Link to='/projects/create'>New project</Link></li>
                         <li><Link to='/todo'>ToDo</Link></li>
                         <li>
                             {this.isAuth() ? <button onClick={() => this.logOut()}>Logout</button> : <Link to='/login'>login</Link>}
@@ -154,7 +172,8 @@ class App extends React.Component {
                     <Routes>
                         <Route exact path='/' element={<UserList users={this.state.users} />} />
                         <Route exact path='/users' element={<Navigate to='/' />} />
-                        <Route exact path='/projects' element={<ProjectList projects={this.state.projects} deleteProject={(id) => this.deleteProject(id)} />} />
+                        <Route exact path='/projects' element={<ProjectList projects={this.state.projects} users={this.state.users} deleteProject={(id) => this.deleteProject(id)} />} />
+                        <Route exact path='/projects/create' element={<ProjectForm projects={this.state.users} createProject={(project_name, repo, users) => this.createProject(project_name, repo, users)} />} />
                         <Route exact path='/todo' element={<ToDoList todos={this.state.todos} />} />
                         <Route exact path='/login' element={<LoginForm obtainAuthToken={(login, password) => this.obtainAuthToken(login, password)} />} />
                         <Route path='*' element={<NotFound />} />
