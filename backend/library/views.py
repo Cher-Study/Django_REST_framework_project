@@ -7,12 +7,12 @@ from .serializer import UserModelSerializer, ProjectModelSerializer, TodoModelSe
 from rest_framework.permissions import BasePermission, DjangoModelPermissions, DjangoModelPermissionsOrAnonReadOnly
 
 
-class ProjectLimitOffsetPagination(LimitOffsetPagination):
-    default_limit = 10
+# class ProjectLimitOffsetPagination(LimitOffsetPagination):
+#     default_limit = 10
 
 
-class TodoLimitOffsetPagination(LimitOffsetPagination):
-    default_limit = 20
+# class TodoLimitOffsetPagination(LimitOffsetPagination):
+#     default_limit = 20
 
 
 class UserReadViewSet(
@@ -34,7 +34,7 @@ class UserReadViewSet(
 
 
 class ProjectModelViewSet(ModelViewSet):
-    pagination_class = ProjectLimitOffsetPagination
+    # pagination_class = ProjectLimitOffsetPagination
     serializer_class = ProjectModelSerializer
     queryset = Project.objects.all()
 
@@ -46,7 +46,7 @@ class ProjectModelViewSet(ModelViewSet):
 
 
 class TodoModelViewSet(ModelViewSet):
-    pagination_class = TodoLimitOffsetPagination
+    # pagination_class = TodoLimitOffsetPagination
     serializer_class = TodoModelSerializer
     queryset = Todo.objects.all()
 

@@ -78,7 +78,7 @@ class App extends React.Component {
         axios
             .get('http://127.0.0.1:8000/api/users/', { headers })
             .then(response => {
-                let users = response.data.results
+                let users = response.data
                 this.setState({
                     'users': users
                 })
@@ -93,7 +93,7 @@ class App extends React.Component {
         axios
             .get('http://127.0.0.1:8000/api/projects/', { headers })
             .then(response => {
-                let projects = response.data.results
+                let projects = response.data
                 this.setState({
                     'projects': projects
                 })
@@ -108,7 +108,7 @@ class App extends React.Component {
         axios
             .get('http://127.0.0.1:8000/api/todos/', { headers })
             .then(response => {
-                let todos = response.data.results
+                let todos = response.data
                 this.setState({
                     'todos': todos
                 })
@@ -143,7 +143,7 @@ class App extends React.Component {
         axios
             .delete(`http://127.0.0.1:8000/api/projects/${id}`, { headers })
             .then(response => {
-                let projects = response.data.results
+                let projects = response.data
                 this.setState({
                     'projects': this.state.projects.filter((project) => project.id !== id)
                 })
@@ -177,7 +177,7 @@ class App extends React.Component {
         axios
             .delete(`http://127.0.0.1:8000/api/todos/${id}`, { headers })
             .then(response => {
-                let todos = response.data.results
+                let todos = response.data
                 this.setState({
                     'todos': this.state.todos.filter((todo) => todo.id !== id)
                 })
