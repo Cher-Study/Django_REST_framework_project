@@ -3,6 +3,7 @@ import axios from 'axios'
 import './App.css';
 import UserList from './components/UserList.js'
 import ToDoList from './components/ToDoList.js'
+import ToDoForm from './components/ToDoForm.js'
 import ProjectList from './components/ProjectList.js'
 import ProjectForm from './components/ProjectForm.js'
 import LoginForm from './components/LoginForm.js'
@@ -154,6 +155,40 @@ class App extends React.Component {
         console.log(id)
     }
 
+    createToDo(project, text, author) {
+
+        let headers = this.getHeaders()
+
+        axios
+            .delete('http://127.0.0.1:8000/api/todos/', { 'project': project, 'text': text, 'author': author }, { headers })
+            .then(response => {
+                this.getData()
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
+        console.log(project, text, author)
+    }
+
+    deleteToDo(id) {
+        let headers = this.getHeaders()
+
+        axios
+            .delete(`http://127.0.0.1:8000/api/todos/${id}`, { headers })
+            .then(response => {
+                let todos = response.data.results
+                this.setState({
+                    'todos': this.state.todos.filter((todo) => todo.id !== id)
+                })
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
+        console.log(id)
+    }
+
     render() {
         return (
             <div>
@@ -163,6 +198,7 @@ class App extends React.Component {
                         <li><Link to='/projects'>Projects</Link></li>
                         <li><Link to='/projects/create'>New project</Link></li>
                         <li><Link to='/todo'>ToDo</Link></li>
+                        <li><Link to='/todo/create'>New ToDo</Link></li>
                         <li>
                             {this.isAuth() ? <button onClick={() => this.logOut()}>Logout</button> : <Link to='/login'>login</Link>}
 
@@ -175,6 +211,7 @@ class App extends React.Component {
                         <Route exact path='/projects' element={<ProjectList projects={this.state.projects} users={this.state.users} deleteProject={(id) => this.deleteProject(id)} />} />
                         <Route exact path='/projects/create' element={<ProjectForm projects={this.state.users} createProject={(project_name, repo, users) => this.createProject(project_name, repo, users)} />} />
                         <Route exact path='/todo' element={<ToDoList todos={this.state.todos} />} />
+                        <Route exact path='/todo/create' element={<ToDoForm todos={this.state.projects} createToDo={(project, text, author) => this.createToDo(project, text, author)} />} />
                         <Route exact path='/login' element={<LoginForm obtainAuthToken={(login, password) => this.obtainAuthToken(login, password)} />} />
                         <Route path='*' element={<NotFound />} />
                     </Routes>
