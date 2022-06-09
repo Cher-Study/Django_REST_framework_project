@@ -3,8 +3,10 @@ import axios from 'axios'
 import './App.css';
 import UserList from './components/UserList.js'
 import ToDoList from './components/ToDoList.js'
+import ToDoForm from './components/ToDoForm.js'
 import ProjectList from './components/ProjectList.js'
-import LoginForm from './components/LoginForm'
+import ProjectForm from './components/ProjectForm.js'
+import LoginForm from './components/LoginForm.js'
 import { HashRouter, BrowserRouter, Route, Routes, Link, Navigate, useLocation } from 'react-router-dom'
 
 
@@ -76,7 +78,7 @@ class App extends React.Component {
         axios
             .get('http://127.0.0.1:8000/api/users/', { headers })
             .then(response => {
-                let users = response.data.results
+                let users = response.data
                 this.setState({
                     'users': users
                 })
@@ -91,7 +93,7 @@ class App extends React.Component {
         axios
             .get('http://127.0.0.1:8000/api/projects/', { headers })
             .then(response => {
-                let projects = response.data.results
+                let projects = response.data
                 this.setState({
                     'projects': projects
                 })
@@ -106,7 +108,7 @@ class App extends React.Component {
         axios
             .get('http://127.0.0.1:8000/api/todos/', { headers })
             .then(response => {
-                let todos = response.data.results
+                let todos = response.data
                 this.setState({
                     'todos': todos
                 })
@@ -119,6 +121,74 @@ class App extends React.Component {
             })
     }
 
+    createProject(project_name, repo, users) {
+
+        let headers = this.getHeaders()
+
+        axios
+            .delete('http://127.0.0.1:8000/api/projects/', { 'project_name': project_name, 'repo': repo, 'users': users }, { headers })
+            .then(response => {
+                this.getData()
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
+        console.log(project_name, repo, users)
+    }
+
+    deleteProject(id) {
+        let headers = this.getHeaders()
+
+        axios
+            .delete(`http://127.0.0.1:8000/api/projects/${id}`, { headers })
+            .then(response => {
+                let projects = response.data
+                this.setState({
+                    'projects': this.state.projects.filter((project) => project.id !== id)
+                })
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
+        console.log(id)
+    }
+
+    createToDo(project, text, author) {
+
+        let headers = this.getHeaders()
+
+        axios
+            .delete('http://127.0.0.1:8000/api/todos/', { 'project': project, 'text': text, 'author': author }, { headers })
+            .then(response => {
+                this.getData()
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
+        console.log(project, text, author)
+    }
+
+    deleteToDo(id) {
+        let headers = this.getHeaders()
+
+        axios
+            .delete(`http://127.0.0.1:8000/api/todos/${id}`, { headers })
+            .then(response => {
+                let todos = response.data
+                this.setState({
+                    'todos': this.state.todos.filter((todo) => todo.id !== id)
+                })
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
+        console.log(id)
+    }
+
     render() {
         return (
             <div>
@@ -126,7 +196,9 @@ class App extends React.Component {
                     <nav>
                         <li><Link to='/'>Users</Link></li>
                         <li><Link to='/projects'>Projects</Link></li>
+                        <li><Link to='/projects/create'>New project</Link></li>
                         <li><Link to='/todo'>ToDo</Link></li>
+                        <li><Link to='/todo/create'>New ToDo</Link></li>
                         <li>
                             {this.isAuth() ? <button onClick={() => this.logOut()}>Logout</button> : <Link to='/login'>login</Link>}
 
@@ -136,8 +208,10 @@ class App extends React.Component {
                     <Routes>
                         <Route exact path='/' element={<UserList users={this.state.users} />} />
                         <Route exact path='/users' element={<Navigate to='/' />} />
-                        <Route exact path='/projects' element={<ProjectList projects={this.state.projects} />} />
+                        <Route exact path='/projects' element={<ProjectList projects={this.state.projects} users={this.state.users} deleteProject={(id) => this.deleteProject(id)} />} />
+                        <Route exact path='/projects/create' element={<ProjectForm projects={this.state.users} createProject={(project_name, repo, users) => this.createProject(project_name, repo, users)} />} />
                         <Route exact path='/todo' element={<ToDoList todos={this.state.todos} />} />
+                        <Route exact path='/todo/create' element={<ToDoForm todos={this.state.projects} createToDo={(project, text, author) => this.createToDo(project, text, author)} />} />
                         <Route exact path='/login' element={<LoginForm obtainAuthToken={(login, password) => this.obtainAuthToken(login, password)} />} />
                         <Route path='*' element={<NotFound />} />
                     </Routes>

@@ -1,14 +1,17 @@
-const ProjectItem = ({ project }) => {
+const ProjectItem = ({ project, users, deleteProject }) => {
+    let usersFilter = project.users.map(userId => users.find(u => u.id == userId).user_name)
+
     return (
         <tr>
             <td>{project.project_name}</td>
             <td>{project.repo}</td>
-            <td>{project.users}</td>
+            <td>{project.users.map(userId => users.find(u => u.id == userId).user_name)}</td>
+            <td><button onClick={() => deleteProject(project.id)}>Delete</button></td>
         </tr>
     )
 }
 
-const ProjectList = ({ projects }) => {
+const ProjectList = ({ projects, users, deleteProject }) => {
     return (
         <table>
             <th>
@@ -20,7 +23,7 @@ const ProjectList = ({ projects }) => {
             <th>
                 Users
             </th>
-            {projects.map((project) => <ProjectItem project={project} />)}
+            {projects.map((project) => <ProjectItem project={project} users={users} deleteProject={deleteProject} />)}
         </table>
     )
 }
